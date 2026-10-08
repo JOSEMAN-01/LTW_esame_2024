@@ -1,61 +1,81 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="it">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Esercizio 1</title>
     <script>
         function valida(){
-            var myForm=document.myForm;
+            var myForm = document.myForm;
 
-            var dataDiNascita=myForm.dataDiNascita.value;
-            var annoDiNascita= new Date(dataDiNascita).getFullYear;
-            if(annoDiNascita<1900||annoDiNascita>2008){
-                alert("La vostra data di nascita non e' valida");
+            // 1. Validazione Data di Nascita (1900 < data < 2008)
+            var dataDiNascita = myForm.dataDiNascita.value;
+            if (dataDiNascita) {
+                var dataInserita = new Date(dataDiNascita);
+                var dataMin = new Date('1900-01-01');
+                var dataMax = new Date('2008-01-01');
+
+                if (dataInserita <= dataMin || dataInserita >= dataMax) {
+                    alert("La data di nascita deve essere successiva al 1900 e precedente al 2008.");
+                    return false;
+                }
+            }
+
+            // 2. Validazione Telefono (nessuna lettera consentita)
+            var telefono = myForm.telefono.value.trim();
+            var regexLettere = /[a-zA-Z]/; // Cerca qualsiasi lettera dell'alfabeto
+            if (regexLettere.test(telefono)) {
+                alert("Il numero di telefono non deve contenere lettere.");
                 return false;
             }
 
-            var telefono=myForm.telefono.value;
-            //Come usare i REGEX in JS?
-            if(/[^d -]/){
-                alert("Il numero di telefono puo' contenere solo numeri, spazi o trattini");
-                return false;
-            }
-            //E' suggerito usare trim() e l'uguglianza tripla ===
-            if(myForm.email.value==""&&myForm.telefono.value==""){
-                alert("Devi inserire almeno uno tra email e telefono");
+            // 3. Validazione Email O Telefono obbligatori
+            var email = myForm.email.value.trim();
+            if (email === "" && telefono === "") {
+                alert("Devi inserire almeno uno tra email e numero di telefono.");
                 return false;
             }
 
             return true;
         }
     </script>
-
 </head>
 <body>
-    <form action="" method="post" name="myForm" enctype="multipart/form-data" onsubmit="valida();">
+    <!-- Aggiunto "return" prima di valida() -->
+    <form action="" method="post" name="myForm" enctype="multipart/form-data" onsubmit="return valida();">
         Nome: <input type="text" name="nome" id="nome" maxlength="30" required><br>
         Email: <input type="email" name="email" id="email"><br>
-        Password: <input type="password" name="password" id="password"><br>
+        Password: <input type="password" name="password" id="password" required><br>
         Numero di telefono: <input type="tel" name="telefono" id="telefono"><br>
         Data di Nascita: <input type="date" name="dataDiNascita" id="dataDiNascita" required><br>
-        Genere: M<input type="radio" name="genere" id="genereMaschio" required> F<input type="radio" name="genere" id="genereFemmina" required><br>
-        Interessi: <input type="checkbox" name="interessi" id="interesseRomanzi">Romanzi <input type="checkbox" name="interessi" id="interesseSaggistica"> Altro<input type="checkbox" name="interessi" id="altriInteressi"><br>
+        
+        Genere: 
+        <!-- basta inserire required una sola volta-->
+        <input type="radio" name="genere" id="genereMaschio" value="maschio" required> M
+        <input type="radio" name="genere" id="genereFemmina" value="femmina"> F
+        <input type="radio" name="genere" id="genereAltro" value="altro"> Altro<br>
+        
+        Interessi: 
+        <input type="checkbox" name="interessi" value="Romanzi"> Romanzi 
+        <input type="checkbox" name="interessi" value="Saggistica"> Saggistica
+        <input type="checkbox" name="interessi" value="Fumetti"> Fumetti
+        <input type="checkbox" name="interessi" value="Altro"> Altro<br>
+        
         Tipo di abbonamento: 
         <select name="abbonamento" id="abbonamento" required>
-            <option value="" selected>Scegli...</option>
-            <option value="mensile" >Mensile</option>
+            <option value="" disabled selected>Scegli...</option>
+            <option value="mensile">Mensile</option>
             <option value="annuale">Annuale</option>
-            <option value="Premium">Premium</option>
+            <option value="premium">Premium</option>
         </select>
         <br>
+        
         Foto profilo: <input type="file" name="foto" id="foto"><br>
-        Frequenza notifiche: <input type="range" name="frequenzaNotifiche" id="frequenzaNotifiche" min="0" max="10"><br>
+        Preferenza notifiche: <input type="range" name="frequenzaNotifiche" id="frequenzaNotifiche" min="0" max="10"><br>
         Note aggiuntive: <br><textarea name="note" id="note"></textarea><br>
 
         <input type="submit" value="Invia">
         <input type="reset" value="Reset">
     </form>
-
 </body>
 </html>

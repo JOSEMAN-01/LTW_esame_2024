@@ -1,2 +1,2 @@
 # LTW_exercises
-Esercizi del corso di programmazione front-end
+Svolgimento dell'esame di LTW del 2024

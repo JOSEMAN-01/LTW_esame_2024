@@ -1,3 +1,4 @@
+<!-- modifica della soluzione originale, per svolgere il punto 3: Controlli senza JS-->
 <!DOCTYPE html>
 <html lang="it">
 <head>
@@ -7,27 +8,6 @@
     <script>
         function valida(){
             var myForm = document.myForm;
-
-            // 1. Validazione Data di Nascita (1900 < data < 2008)
-            var dataDiNascita = myForm.dataDiNascita.value;
-            if (dataDiNascita) {
-                var dataInserita = new Date(dataDiNascita);
-                var dataMin = new Date('1900-01-01');
-                var dataMax = new Date('2008-01-01');
-
-                if (dataInserita <= dataMin || dataInserita >= dataMax) {
-                    alert("La data di nascita deve essere successiva al 1900 e precedente al 2008.");
-                    return false;
-                }
-            }
-
-            // 2. Validazione Telefono (nessuna lettera consentita)
-            var telefono = myForm.telefono.value.trim();
-            var regexLettere = /[a-zA-Z]/; // Cerca qualsiasi lettera dell'alfabeto
-            if (regexLettere.test(telefono)) {
-                alert("Il numero di telefono non deve contenere lettere.");
-                return false;
-            }
 
             // 3. Validazione Email O Telefono obbligatori
             var email = myForm.email.value.trim();
@@ -46,8 +26,8 @@
         Nome: <input type="text" name="nome" id="nome" maxlength="30" required><br>
         Email: <input type="email" name="email" id="email"><br>
         Password: <input type="password" name="password" id="password" required><br>
-        Numero di telefono: <input type="tel" name="telefono" id="telefono"><br>
-        Data di Nascita: <input type="date" name="dataDiNascita" id="dataDiNascita" required><br>
+        Numero di telefono: <input type="tel" name="telefono" id="telefono" pattern="[0-9\s\+\-]*" title="Il numero di telefono non può contenere lettere."><br>
+        Data di nascita:<input type="date" name="dataDiNascita" id="dataDiNascita" min="1900-01-02" max="2007-12-31" required><br>
         
         Genere: 
         <!-- basta inserire required una sola volta-->
